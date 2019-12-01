@@ -1,0 +1,94 @@
+---------------------pagination -------------------
+in controller-------
+
+use Illuminate\Pagination\Paginator;
+
+    public function index()
+    {
+      $roles = role::paginate(4);
+      return view('admin.role.index',compact('roles'));
+
+    }
+
+in view----------------------------------------------------------------
+<?php $count=0?>
+<div class="container card-scroll">
+  <div class="row">
+    @foreach ($roles as $role)
+    @if($count<4)
+    <div class="col-md-3 mt-3">
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1499084732479-de2c02d45fcc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">{{$role->id}}</h5>
+        <p class="card-text">{{$role->role_name}}</p>
+        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+      </div>
+    </div>
+    </div>
+    @endif
+    @endforeach
+  </div>
+</div>
+
+{{ $roles->links() }}
+
+
+
+profile check------------------------
+
+@foreach($profile as $p)
+ <?php $c_t= $p->contact_no ?>
+@endforeach
+@if(empty($c_t))
+<div id = "alert" class="alert alert-danger" role="alert">
+  <center>Please fill up the form</center>
+</div>
+@else
+@foreach($profile as $profile)
+<h1>{{$profile->contact_no}}</h1>
+@endforeach
+sdfsdaf
+@endif
+
+
+
+redirect in register controller----------------------------------
+
+    protected function redirectTo()
+    {
+        session()->flash('success', 'Registration Successfull');
+        return route('home');
+    }
+
+login controller-----------------------------------------------
+
+  protected function redirectTo()
+    {
+      $userRoles = Auth::user()->role_id;
+      if($userRoles=='1'){
+        return 'admin';
+      }
+      elseif($userRoles=='2'){
+        return 'test';
+      }
+      elseif($userRoles=='3'){
+        return 'seller';
+      }
+      elseif($userRoles=='4'){
+        echo "Hello Transporter";
+      }
+      else{
+        return '/login';
+      }
+    }
+
+Duplicate Entry Message-------------------------------------------
+  try {
+    DB::table('users')->insert($userData);
+  } catch (Illuminate\Database\QueryException $e){
+    $errorCode = $e->errorInfo[1];
+    if($errorCode == 1062){
+        return 'Duplicate Entry';
+    }
+  }
