@@ -92,3 +92,10 @@ Duplicate Entry Message-------------------------------------------
         return 'Duplicate Entry';
     }
   }
+
+functions for-Capitalize letters----------------------------------------------------
+ucwords() - converts the first character of each words to uppercase
+ucfirst() - converts the first character of a string to uppercase
+lcfirst() - converts the first character of a string to lowercase
+strtoupper() - converts a string to uppercase
+strtolower() - converts a string to lowercase
